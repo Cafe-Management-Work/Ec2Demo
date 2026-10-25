@@ -1,13 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        // Assumes Java 21 and Maven are configured in Jenkins Global Tool Configuration,
-        // or available in the system path.
-        jdk 'jdk21'
-        maven 'maven3'
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
@@ -17,15 +10,17 @@ pipeline {
 
         stage('Build Application') {
             steps {
-                // Builds the Spring Boot jar file, skipping tests for quick deployment
+                // If your project uses Maven:
                 sh 'mvn clean package -DskipTests'
+
+                // (Or if your project uses Gradle, uncomment below instead):
+                // sh './gradlew build -x test'
             }
         }
 
         stage('Deploy to EC2') {
             steps {
                 echo 'Deploying Spring Boot application...'
-                // Add your deployment commands here (e.g., stopping old jar, starting new jar)
                 sh 'nohup java -jar target/*.jar > app.log 2>&1 &'
             }
         }
