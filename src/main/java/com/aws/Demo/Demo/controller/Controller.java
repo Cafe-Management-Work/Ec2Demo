@@ -10,6 +10,6 @@ public class Controller {
 
     @GetMapping("/welcome")
     public String getMessage(){
-        return "Hello Welcome to AWS";
+        return "Hello Welcome to AWS CI&CD pipeline";
     }
 }
